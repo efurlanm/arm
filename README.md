@@ -1,6 +1,6 @@
 # Notes about the ARM architecture
 
-This repository contains my personal notes on subjects related to the ARM architecture, related microcontrollers, and also Termux which is a terminal emulator and Linux environment application for Android that allows you to run Linux command line commands and tools directly on your cell phone or tablet. In Termux I run an SSH server and a JupyterLab server, and access is done remotely on the PC.
+This repository contains my personal notes on subjects related to the ARM architecture, related microcontrollers, and also Termux which is a terminal emulator and Linux environment application for Android that allows you to run Linux command line commands and tools directly on your cell phone or tablet. In Termux I run an SSH server and a JupyterLab server, and access is done remotely on the PC. Some Notebooks in this repository run on PC and others run on Termux.
 
 - Termux: <https://termux.dev/en/>
 
