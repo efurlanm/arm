@@ -1,6 +1,6 @@
 # Notes on architectures
 
-This directory contains some of my personal notes on subjects related to ARM, MIPS, x86, microcontrollers and other architectures, as well as on Termux, which is a terminal emulator and Linux environment application for Android that allows you to run Linux command line commands and tools directly on your cell phone or tablet. In the case of Termux, I use an SSH server and a JupyterLab server, and access is done remotely through the PC.
+This repository contains some of my personal notes on subjects related to ARM, MIPS, x86, microcontrollers and other architectures, as well as on Termux, which is a terminal emulator and Linux environment application for Android that allows you to run Linux command line commands and tools directly on your cell phone or tablet. In the case of Termux, I use an SSH server and a JupyterLab server, and access is done remotely through the PC.
 
 
 ## Termux
@@ -77,7 +77,7 @@ sshfs <hostname>:/data/data/com.termux/files/home /mnt/<hostname> -o uid=$(id -u
 ```
 
 
-## Notes on executables
+## Notes on some files
 
 My personal notes on generating executables on selected architectures
 
@@ -95,5 +95,22 @@ My personal notes on generating executables on selected architectures
 ## ELF diagram
 
 - [ELF Executable_and_Linkable_Format diagram](img/ELF_Executable_and_Linkable_Format_diagram_by_Ange_Albertini.png) [[Source](https://upload.wikimedia.org/wikipedia/commons/e/e4/ELF_Executable_and_Linkable_Format_diagram_by_Ange_Albertini.png)]
+
+
+## Links of interest
+
+* Intel manuals. <https://software.intel.com/en-us/articles/intel-sdm>
+* x86 and amd64 instruction reference. <https://www.felixcloutier.com/x86/index.html>
+* JORGENSEN, E. x86-64 Assembly Language Programming with Ubuntu. <http://www.egr.unlv.edu/~ed/assembly64.pdf>
+* Boldyshev & Rideau. Linux Assembly HOWTO. 2000. <http://www.mit.edu/afs.new/athena/system/rhlinux/redhat-6.2-docs/HOWTOS/other-formats/pdf/Assembly-HOWTO.pdf>
+* Ray Toal. x86 Assembly Language Programming. <https://cs.lmu.edu/~ray/notes/x86assembly/>
+
+
+## Some references
+
+* HOEY, J. V. [Beginning x64 Assembly Programming](http://www.google.com.br/books/edition/Beginning_x64_Assembly_Programming/mSa7DwAAQBAJ). 2019.
+* MILLER, A. R. [Assembly Language Techniques for the IBM PC](https://www.google.com.br/books/edition/Assembly_Language_Techniques_for_the_IBM/0FsgAQAAIAAJ). 1986.
+
+
 
 <br><sub>Last edited: 2025-06-06 21:49:05</sub>
