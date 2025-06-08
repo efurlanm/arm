@@ -111,6 +111,4 @@ My personal notes on generating executables on selected architectures
 * HOEY, J. V. [Beginning x64 Assembly Programming](http://www.google.com.br/books/edition/Beginning_x64_Assembly_Programming/mSa7DwAAQBAJ). 2019.
 * MILLER, A. R. [Assembly Language Techniques for the IBM PC](https://www.google.com.br/books/edition/Assembly_Language_Techniques_for_the_IBM/0FsgAQAAIAAJ). 1986.
 
-
-
-<br><sub>Last edited: 2025-06-06 21:49:05</sub>
+<br><sub>Last edited: 2025-06-07 20:48:59</sub>
