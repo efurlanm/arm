@@ -2,11 +2,9 @@
 
 This repository contains some of my personal notes on subjects related to ARM, MIPS, x86, microcontrollers and other architectures, as well as on Termux, which is a terminal emulator and Linux environment application for Android that allows you to run Linux command line commands and tools directly on your cell phone or tablet. In the case of Termux, I use an SSH server and a JupyterLab server, and access is done remotely through the PC.
 
-
 ## Termux
 
 <https://termux.dev/en/>
-
 
 ### SSH install
 
@@ -76,26 +74,27 @@ And then the JL client can be accessed on the PC using the address `http://<host
 sshfs <hostname>:/data/data/com.termux/files/home /mnt/<hostname> -o uid=$(id -u),gid=$(id -g)
 ```
 
-
 ## Notes on some files
 
 My personal notes on generating executables on selected architectures
 
 * My personal notes on Clang AArch64.
-    * [clang-aarch64-2025-06-06.ipynb](clang/clang-aarch64.ipynb) rev. 2025-06-06
-    * [clang-aarch64-2023-01-28.ipynb](clang/clang-aarch64.ipynb) rev. 2023-01-28
+  * [clang-aarch64-2025-06-06.ipynb](clang/clang-aarch64.ipynb) rev. 2025-06-06
+  * [clang-aarch64-2023-01-28.ipynb](clang/clang-aarch64.ipynb) rev. 2023-01-28
 * My personal notes on Flang AArch64.
-    * [flang-aarch64-2023-01-28.ipynb](flang/flang-aarch64.ipynb) rev. 2023-01-28
-    * [flang-aarch64-2025-06-06.ipynb](flang/flang-aarch64.ipynb) rev. 2025-06-06
+  * [flang-aarch64-2023-01-28.ipynb](flang/flang-aarch64.ipynb) rev. 2023-01-28
+  * [flang-aarch64-2025-06-06.ipynb](flang/flang-aarch64.ipynb) rev. 2025-06-06
 * [install-flang-aarch64.ipynb](flang/install-flang-aarch64.ipynb) - Install Flang on aarch64.
 * [gcc_amd64.ipynb](gcc/gcc_amd64.ipynb) - Understanding executables. Running on a laptop with an i7-9750H processor.
 * [gcc_arm32.ipynb](gcc/gcc_arm32.ipynb) - Understanding executables. Running on an Orange Pi Zero, with 32-bit ARMv7-A Cortex-A7 architecture.
 
+## Links about Executable and Linkable Format (ELF)
 
-## ELF diagram
-
-- [ELF Executable_and_Linkable_Format diagram](img/ELF_Executable_and_Linkable_Format_diagram_by_Ange_Albertini.png) [[Source](https://upload.wikimedia.org/wikipedia/commons/e/e4/ELF_Executable_and_Linkable_Format_diagram_by_Ange_Albertini.png)]
-
+- Diagram. [ELF Executable_and_Linkable_Format diagram](img/ELF_Executable_and_Linkable_Format_diagram_by_Ange_Albertini.png) [[Source](https://upload.wikimedia.org/wikipedia/commons/e/e4/ELF_Executable_and_Linkable_Format_diagram_by_Ange_Albertini.png)]
+- [Executable and Linkable Format - Wikipedia](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format)
+- [HW3 - 238P Operating Systems](https://ics.uci.edu/~aburtsev/238P/hw/hw3-elf/hw3-elf.html)
+- [Introduction to the ELF Format Part II : Understanding Program Headers](https://blog.k3170makan.com/2018/09/introduction-to-elf-format-part-ii.html)
+- [Tiny ELF Files: Revisited in 2021](https://nathanotterness.com/2021/10/tiny_elf_modernized.html)
 
 ## Links of interest
 
@@ -105,10 +104,9 @@ My personal notes on generating executables on selected architectures
 * Boldyshev & Rideau. Linux Assembly HOWTO. 2000. <http://www.mit.edu/afs.new/athena/system/rhlinux/redhat-6.2-docs/HOWTOS/other-formats/pdf/Assembly-HOWTO.pdf>
 * Ray Toal. x86 Assembly Language Programming. <https://cs.lmu.edu/~ray/notes/x86assembly/>
 
-
 ## Some references
 
 * HOEY, J. V. [Beginning x64 Assembly Programming](http://www.google.com.br/books/edition/Beginning_x64_Assembly_Programming/mSa7DwAAQBAJ). 2019.
 * MILLER, A. R. [Assembly Language Techniques for the IBM PC](https://www.google.com.br/books/edition/Assembly_Language_Techniques_for_the_IBM/0FsgAQAAIAAJ). 1986.
 
-<br><sub>Last edited: 2025-06-07 20:48:59</sub>
+<br><sub>Last edited: 2025-06-08 15:23:50</sub>

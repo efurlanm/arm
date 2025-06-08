@@ -460,7 +460,6 @@ strip --strip-all --strip-section-headers hello.elf
 %%writefile tiny.s
     .arch armv8-a
     .section .text
-    .align 1
     .globl _start
     .type _start, %function
 
@@ -476,26 +475,257 @@ _start:
 
 ```bash
 %%bash
-as -o tiny.o tiny.s
-ld  --no-dynamic-linker -s -z max-page-size=1 --omagic --nmagic -no-pie -z noseparate-code tiny.o -o tiny
-strip --strip-section-headers tiny
+clang -static -nostdlib -Wl,--omagic -fuse-ld=bfd tiny.s -o tiny
+strip --strip-all tiny
+./tiny; echo $?
+wc -c tiny
 ```
+
+    /data/data/com.termux/files/usr/bin/ld.bfd: warning: tiny has a LOAD segment with RWX permissions
+
+
+    42
+    344 tiny
+
+
+I believe 344 bytes is the minimum size of an executable using standard tools and without affecting the output of the binutils tools. The `-Wl,--omagic` flag instructs the linker to create an executable with writable code sections and no page alignment in the data section. The `-fuse-ld=bfd` flag is to use gnu `ld` which can further optimize the executable.
+
+Using as and ld:
+
+
+```bash
+%%bash
+as -o tiny.o tiny.s
+ld --omagic -o tiny tiny.o
+strip --strip-all tiny
+./tiny; echo $?
+wc -c tiny
+```
+
+    ld: warning: tiny has a LOAD segment with RWX permissions
+
+
+    42
+    344 tiny
+
 
 
 ```python
-! ./tiny ; echo $?
+! size tiny
+```
+
+       text	   data	    bss	    dec	    hex	filename
+         12	      0	      0	     12	      c	tiny
+
+
+
+```python
+! objdump -h tiny
+```
+
+    
+    tiny:     file format elf64-littleaarch64
+    
+    Sections:
+    Idx Name          Size      VMA               LMA               File off  Algn
+      0 .text         0000000c  0000000000400078  0000000000400078  00000078  2**2
+                      CONTENTS, ALLOC, LOAD, CODE
+
+
+
+```python
+! objdump -d tiny
+```
+
+    
+    tiny:     file format elf64-littleaarch64
+    
+    
+    Disassembly of section .text:
+    
+    0000000000400078 <.text>:
+      400078:	d2800ba8 	mov	x8, #0x5d                  	// #93
+      40007c:	d2800540 	mov	x0, #0x2a                  	// #42
+      400080:	d4000001 	svc	#0x0
+
+
+
+```python
+! objdump -s tiny
+```
+
+    
+    tiny:     file format elf64-littleaarch64
+    
+    Contents of section .text:
+     400078 a80b80d2 400580d2 010000d4           ....@.......    
+
+
+
+```python
+! hexdump -C tiny
+```
+
+    00000000  7f 45 4c 46 02 01 01 00  00 00 00 00 00 00 00 00  |.ELF............|
+    00000010  02 00 b7 00 01 00 00 00  78 00 40 00 00 00 00 00  |........x.@.....|
+    00000020  40 00 00 00 00 00 00 00  98 00 00 00 00 00 00 00  |@...............|
+    00000030  00 00 00 00 40 00 38 00  01 00 40 00 03 00 02 00  |....@.8...@.....|
+    00000040  01 00 00 00 07 00 00 00  78 00 00 00 00 00 00 00  |........x.......|
+    00000050  78 00 40 00 00 00 00 00  78 00 40 00 00 00 00 00  |x.@.....x.@.....|
+    00000060  0c 00 00 00 00 00 00 00  0c 00 00 00 00 00 00 00  |................|
+    00000070  04 00 00 00 00 00 00 00  a8 0b 80 d2 40 05 80 d2  |............@...|
+    00000080  01 00 00 d4 00 2e 73 68  73 74 72 74 61 62 00 2e  |......shstrtab..|
+    00000090  74 65 78 74 00 00 00 00  00 00 00 00 00 00 00 00  |text............|
+    000000a0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+    *
+    000000d0  00 00 00 00 00 00 00 00  0b 00 00 00 01 00 00 00  |................|
+    000000e0  07 00 00 00 00 00 00 00  78 00 40 00 00 00 00 00  |........x.@.....|
+    000000f0  78 00 00 00 00 00 00 00  0c 00 00 00 00 00 00 00  |x...............|
+    00000100  00 00 00 00 00 00 00 00  04 00 00 00 00 00 00 00  |................|
+    00000110  00 00 00 00 00 00 00 00  01 00 00 00 03 00 00 00  |................|
+    00000120  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+    00000130  84 00 00 00 00 00 00 00  11 00 00 00 00 00 00 00  |................|
+    00000140  00 00 00 00 00 00 00 00  01 00 00 00 00 00 00 00  |................|
+    00000150  00 00 00 00 00 00 00 00                           |........|
+    00000158
+
+
+Using `strip --strip-section-headers tiny` it is possible to get a 132-byte executable, but this ends up affecting the outputs of `size`, `objdump`, and others:
+
+
+```bash
+%%bash
+strip --strip-section-headers tiny
+./tiny; echo $?
+wc -c tiny
 ```
 
     42
+    132 tiny
 
 
 
 ```python
-! wc -c tiny
+! size tiny
 ```
 
-    132 tiny
+       text	   data	    bss	    dec	    hex	filename
+          0	      0	      0	      0	      0	tiny
 
+
+
+```python
+! objdump -h tiny
+```
+
+    
+    tiny:     file format elf64-littleaarch64
+    
+    Sections:
+    Idx Name          Size      VMA               LMA               File off  Algn
+
+
+
+```python
+! objdump -d tiny
+```
+
+    
+    tiny:     file format elf64-littleaarch64
+    
+
+
+
+```python
+! objdump -s tiny
+```
+
+    
+    tiny:     file format elf64-littleaarch64
+    
+
+
+
+```python
+! hexdump -C tiny
+```
+
+    00000000  7f 45 4c 46 02 01 01 00  00 00 00 00 00 00 00 00  |.ELF............|
+    00000010  02 00 b7 00 01 00 00 00  78 00 40 00 00 00 00 00  |........x.@.....|
+    00000020  40 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |@...............|
+    00000030  00 00 00 00 40 00 38 00  01 00 00 00 00 00 00 00  |....@.8.........|
+    00000040  01 00 00 00 07 00 00 00  78 00 00 00 00 00 00 00  |........x.......|
+    00000050  78 00 40 00 00 00 00 00  78 00 40 00 00 00 00 00  |x.@.....x.@.....|
+    00000060  0c 00 00 00 00 00 00 00  0c 00 00 00 00 00 00 00  |................|
+    00000070  04 00 00 00 00 00 00 00  a8 0b 80 d2 40 05 80 d2  |............@...|
+    00000080  01 00 00 d4                                       |....|
+    00000084
+
+
+### Understanding the Hexdump Output
+The command `hexdump -C` displays the contents of the binary file in hexadecimal (`hex`) format alongside their ASCII representation.
+
+Each line consists of:
+1. **Offset**: The address in hexadecimal representing the position of the first byte in that row.
+2. **Hexadecimal Bytes**: The actual bytes in hexadecimal notation.
+3. **ASCII Representation**: The corresponding characters if they are printable, otherwise represented as `.`.
+
+---
+
+### **Breakdown of Hexdump Output**
+#### **ELF Header (First 16 bytes)**
+```
+00000000  7f 45 4c 46 02 01 01 00  00 00 00 00 00 00 00 00  |.ELF............|
+```
+- `7f 45 4c 46`: **Magic Number** for ELF format (always `0x7F 'E' 'L' 'F'`).
+- `02`: Indicates **ELF 64-bit** format.
+- `01`: **Little-endian** encoding.
+- `01`: ELF version (current).
+- `00 ... 00`: Reserved and padding bytes.
+
+---
+
+#### **ELF Type and Architecture (Next 16 bytes)**
+```
+00000010  02 00 b7 00 01 00 00 00  78 00 40 00 00 00 00 00  |........x.@.....|
+```
+- `02 00`: ELF **type** (`ET_EXEC`, meaning executable).
+- `b7 00`: **Architecture** (`EM_AARCH64`, meaning ARM AArch64).
+- `01 00 00 00`: ELF **version**.
+- `78 00 40 00`: **Entry point address** (`0x400078`, the start of the program).
+
+---
+
+#### **ELF Program Headers**
+```
+00000020  40 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |@...............|
+00000030  00 00 00 00 40 00 38 00  01 00 00 00 00 00 00 00  |....@.8.........|
+```
+- `40 00 00 00`: Offset where the program headers are located.
+- `00 ... 00`: Zeroed bytes (padding).
+- `40 00 38 00`: Size of the **program headers**.
+
+---
+
+#### **Segment Information**
+```
+00000040  01 00 00 00 07 00 00 00  78 00 00 00 00 00 00 00  |........x.......|
+```
+- `01 00 00 00`: Segment **type** (`PT_LOAD`, meaning it's a loadable program segment).
+- `07 00 00 00`: Flags (`R|W|X`, meaning it has read, write, and execute permissions).
+- `78 00 00 00`: Virtual **memory address** (`0x78`), indicating where it will be loaded.
+
+---
+
+#### **Program Content (Assembly Instructions)**
+```
+00000070  04 00 00 00 00 00 00 00  a8 0b 80 d2 40 05 80 d2  |............@...|
+00000080  01 00 00 d4                                       |....|
+```
+Here lies the actual **machine code instructions** for the program:
+1. `a8 0b 80 d2`: `mov x8, #93` (Syscall number for `exit`).
+2. `40 05 80 d2`: `mov x0, #42` (Exit code 42).
+3. `01 00 00 d4`: `svc #0` (System call to exit).
 
 
 ```python
