@@ -1,8 +1,10 @@
-# Notes on architectures
+# My notes on optimizing and constrained environments
 
-This repository contains some of my personal notes on subjects related to ARM, MIPS, x86, microcontrollers and other architectures, as well as on Termux, which is a terminal emulator and Linux environment application for Android that allows you to run Linux command line commands and tools directly on your cell phone or tablet. In the case of Termux, I use an SSH server and a JupyterLab server, and access is done remotely through the PC.
+This repository serves as a collection of personal notes and experiments focused on optimizing systems in constrained environments. Exploring topics across operating systems and architectures such as ARM, MIPS, and x86, much of our focus is on Termux — a terminal emulator and Linux environment for Android. In Termux, especially on AArch64 devices, we use proot-distro, which uses proot to install nearly complete Linux distributions. This creates isolated, container-like environments where Linux operates with remarkable independence from the underlying operating system. The central premise here is that a deep understanding of how to simplify and optimize resources in constrained environments can yield valuable insights that are often applicable to optimizing larger, more complex systems, revealing the nuances of performance and efficiency in challenging scenarios such as extracting maximum processing power and memory management under constrained conditions.
 
 ## Termux
+
+Within Termux I use an SSH server and a JupyterLab server, and access is done remotely from the PC.
 
 <https://termux.dev/en/>
 
@@ -54,6 +56,8 @@ termux-change-repo
 
 ### JupyterLab(JL) install (Termux)
 
+JupyterLab running in the Termux environment (outside the proot-distro).
+
 ```sh
 pkg install -y libzmq openssl-tool build-essential cmake binutils rust
 pip install --user pyzmq==25.1.2
@@ -73,6 +77,14 @@ And then the JL client can be accessed on the PC using the address `http://<host
 ```sh
 sshfs <hostname>:/data/data/com.termux/files/home /mnt/<hostname> -o uid=$(id -u),gid=$(id -g)
 ```
+
+### proot-distro
+
+<https://github.com/termux/proot-distro>
+
+    pkg install proot-distro
+    proot-distro install ubuntu
+    proot-distro login ubuntu
 
 ## Notes on some files
 
@@ -109,4 +121,4 @@ My personal notes on generating executables on selected architectures
 * HOEY, J. V. [Beginning x64 Assembly Programming](http://www.google.com.br/books/edition/Beginning_x64_Assembly_Programming/mSa7DwAAQBAJ). 2019.
 * MILLER, A. R. [Assembly Language Techniques for the IBM PC](https://www.google.com.br/books/edition/Assembly_Language_Techniques_for_the_IBM/0FsgAQAAIAAJ). 1986.
 
-<br><sub>Last edited: 2025-06-08 15:23:50</sub>
+<br><sub>Last edited: 2025-06-09 11:50:11</sub>

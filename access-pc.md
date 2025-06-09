@@ -11,12 +11,7 @@ The command `ssh -NfT g4` is used to establish a **non-interactive SSH connectio
 
 Start the JL server in Termux:
 
-
-```python
-! ssh -T g4 'jupyter-lab --no-browser --ip=* --IdentityProvider.token='' --notebook-dir=~ >/dev/null 2>&1 &'
-```
-
-At this point JL can be accessed on the PC using the address <http://g4:8888/lab?> in the browser.
+JL can be accessed on the PC using the address <http://g4:8889/lab> in the browser.
 
 Mount the file system:
 
@@ -25,19 +20,26 @@ Mount the file system:
 %%bash
 OPT="uid=$(id -u),gid=$(id -g),reconnect,cache=yes,kernel_cache,compression=no,ServerAliveCountMax=3"
 sshfs  g4:/data/data/com.termux/files/home  /mnt/g4  -o $OPT
+sshfs  g4:/data/data/com.termux/files/usr/var/lib/proot-distro/installed-rootfs/ubuntu   /mnt/g4u  -o $OPT
 ```
 
 ## Shutdown
 
 
 ```python
-! sudo umount /mnt/g4
+! sudo umount /mnt/g4 /mnt/g4u
 ```
 
 
 ```python
-! ssh -T g4 'pkill -f jupyter'
+! ssh -T g4 'proot-distro login ubuntu -- bash -lc "killall jupyter-lab"'
 ```
+
+    proot warning: can't sanitize binding "/proc/self/fd/2": No such file or directory
+    proot warning: can't sanitize binding "/proc/self/fd/1": No such file or directory
+    proot warning: can't sanitize binding "/proc/self/fd/0": No such file or directory
+    jupyter-lab: no process found
+
 
 
 ```python
