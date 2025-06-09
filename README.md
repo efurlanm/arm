@@ -1,6 +1,13 @@
 # My notes on small systems and related topics
 
-This repository serves as a collection of personal notes and experiments focused on restricted environments, operating systems, architectures such as ARM, MIPS, and x86, Assembly, C, and related topics. Some of the focus is on Termux (a terminal emulator and Linux environment for Android) on AArch64 devices, and the use of proot-distro, which uses proot to install nearly complete Linux distributions, creating isolated, container-like environments where Linux operates with remarkable independence from the underlying operating system.
+This repository serves as a collection of personal random notes and experiments focused on restricted environments, operating systems, architectures such as ARM, MIPS, and x86, Assembly, C, and related topics. Some of the focus is on Termux (a terminal emulator and Linux environment for Android) on AArch64 devices, and the use of proot-distro, which uses proot to install nearly complete Linux distributions, creating isolated, container-like environments where Linux operates with remarkable independence from the underlying operating system.
+
+<table>
+  <tr>
+    <td><img src="img/construction.gif"></td>
+    <td>This repo is permanently under construction, so its content changes constantly.</td>
+  </tr>
+</table>
 
 ## Termux
 
@@ -91,11 +98,11 @@ sshfs <hostname>:/data/data/com.termux/files/home /mnt/<hostname> -o uid=$(id -u
 My personal notes on generating executables on selected architectures
 
 * My personal notes on Clang AArch64.
-  * [clang-aarch64-2025-06-06.ipynb](clang/clang-aarch64.ipynb) rev. 2025-06-06
-  * [clang-aarch64-2023-01-28.ipynb](clang/clang-aarch64.ipynb) rev. 2023-01-28
+     * [clang-aarch64-2025-06-06.ipynb](clang/clang-aarch64.ipynb) rev. 2025-06-06
+     * [clang-aarch64-2023-01-28.ipynb](clang/clang-aarch64.ipynb) rev. 2023-01-28
 * My personal notes on Flang AArch64.
-  * [flang-aarch64-2023-01-28.ipynb](flang/flang-aarch64.ipynb) rev. 2023-01-28
-  * [flang-aarch64-2025-06-06.ipynb](flang/flang-aarch64.ipynb) rev. 2025-06-06
+     * [flang-aarch64-2023-01-28.ipynb](flang/flang-aarch64.ipynb) rev. 2023-01-28
+     * [flang-aarch64-2025-06-06.ipynb](flang/flang-aarch64.ipynb) rev. 2025-06-06
 * [install-flang-aarch64.ipynb](flang/install-flang-aarch64.ipynb) - Install Flang on aarch64.
 * [gcc_amd64.ipynb](gcc/gcc_amd64.ipynb) - Understanding executables. Running on a laptop with an i7-9750H processor.
 * [gcc_arm32.ipynb](gcc/gcc_arm32.ipynb) - Understanding executables. Running on an Orange Pi Zero, with 32-bit ARMv7-A Cortex-A7 architecture.
@@ -119,4 +126,4 @@ My personal notes on generating executables on selected architectures
 * Miller, A. R. (1986). [Assembly Language Techniques for the IBM PC](https://www.google.com.br/books/edition/Assembly_Language_Techniques_for_the_IBM/0FsgAQAAIAAJ).
 * Aaron Beckendorf. (2025). [A Forth OS In 46 Bytes](https://hackaday.com/2025/05/27/a-forth-os-in-46-bytes/)
 
-<br><sub>Last edited: 2025-06-09 12:16:33</sub>
+<br><sub>Last edited: 2025-06-09 12:40:28</sub>
