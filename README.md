@@ -1,6 +1,6 @@
-# My notes on optimizing and constrained environments
+# My notes on small systems and related topics
 
-This repository serves as a collection of personal notes and experiments focused on optimizing systems in constrained environments. Exploring topics across operating systems and architectures such as ARM, MIPS, and x86, much of our focus is on Termux — a terminal emulator and Linux environment for Android. In Termux, especially on AArch64 devices, we use proot-distro, which uses proot to install nearly complete Linux distributions. This creates isolated, container-like environments where Linux operates with remarkable independence from the underlying operating system. The central premise here is that a deep understanding of how to simplify and optimize resources in constrained environments can yield valuable insights that are often applicable to optimizing larger, more complex systems, revealing the nuances of performance and efficiency in challenging scenarios such as extracting maximum processing power and memory management under constrained conditions.
+This repository serves as a collection of personal notes and experiments focused on restricted environments, operating systems, architectures such as ARM, MIPS, and x86, Assembly, C, and related topics. Some of the focus is on Termux (a terminal emulator and Linux environment for Android) on AArch64 devices, and the use of proot-distro, which uses proot to install nearly complete Linux distributions, creating isolated, container-like environments where Linux operates with remarkable independence from the underlying operating system.
 
 ## Termux
 
@@ -108,17 +108,15 @@ My personal notes on generating executables on selected architectures
 - [Introduction to the ELF Format Part II : Understanding Program Headers](https://blog.k3170makan.com/2018/09/introduction-to-elf-format-part-ii.html)
 - [Tiny ELF Files: Revisited in 2021](https://nathanotterness.com/2021/10/tiny_elf_modernized.html)
 
-## Links of interest
+## Links of interest and references
 
-* Intel manuals. <https://software.intel.com/en-us/articles/intel-sdm>
-* x86 and amd64 instruction reference. <https://www.felixcloutier.com/x86/index.html>
-* JORGENSEN, E. x86-64 Assembly Language Programming with Ubuntu. <http://www.egr.unlv.edu/~ed/assembly64.pdf>
-* Boldyshev & Rideau. Linux Assembly HOWTO. 2000. <http://www.mit.edu/afs.new/athena/system/rhlinux/redhat-6.2-docs/HOWTOS/other-formats/pdf/Assembly-HOWTO.pdf>
-* Ray Toal. x86 Assembly Language Programming. <https://cs.lmu.edu/~ray/notes/x86assembly/>
+* [Intel manuals](https://software.intel.com/en-us/articles/intel-sdm)
+* [x86 and amd64 instruction reference](https://www.felixcloutier.com/x86/index.html)
+* Jorgensen, E. [x86-64 Assembly Language Programming with Ubuntu](http://www.egr.unlv.edu/~ed/assembly64.pdf)
+* Boldyshev & Rideau. (2000). [Linux Assembly HOWTO](http://www.mit.edu/afs.new/athena/system/rhlinux/redhat-6.2-docs/HOWTOS/other-formats/pdf/Assembly-HOWTO.pdf)
+* Ray Toal. [x86 Assembly Language Programming](https://cs.lmu.edu/~ray/notes/x86assembly/)
+* Hoey, J. V. (2019). [Beginning x64 Assembly Programming](http://www.google.com.br/books/edition/Beginning_x64_Assembly_Programming/mSa7DwAAQBAJ).
+* Miller, A. R. (1986). [Assembly Language Techniques for the IBM PC](https://www.google.com.br/books/edition/Assembly_Language_Techniques_for_the_IBM/0FsgAQAAIAAJ).
+* Aaron Beckendorf. (2025). [A Forth OS In 46 Bytes](https://hackaday.com/2025/05/27/a-forth-os-in-46-bytes/)
 
-## Some references
-
-* HOEY, J. V. [Beginning x64 Assembly Programming](http://www.google.com.br/books/edition/Beginning_x64_Assembly_Programming/mSa7DwAAQBAJ). 2019.
-* MILLER, A. R. [Assembly Language Techniques for the IBM PC](https://www.google.com.br/books/edition/Assembly_Language_Techniques_for_the_IBM/0FsgAQAAIAAJ). 1986.
-
-<br><sub>Last edited: 2025-06-09 11:50:11</sub>
+<br><sub>Last edited: 2025-06-09 12:16:33</sub>
