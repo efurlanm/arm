@@ -30,16 +30,7 @@ sshfs  g4:/data/data/com.termux/files/usr/var/lib/proot-distro/installed-rootfs/
 ! sudo umount /mnt/g4 /mnt/g4u
 ```
 
-
-```python
 ! ssh -T g4 'proot-distro login ubuntu -- bash -lc "killall jupyter-lab"'
-```
-
-    proot warning: can't sanitize binding "/proc/self/fd/2": No such file or directory
-    proot warning: can't sanitize binding "/proc/self/fd/1": No such file or directory
-    proot warning: can't sanitize binding "/proc/self/fd/0": No such file or directory
-    jupyter-lab: no process found
-
 
 
 ```python

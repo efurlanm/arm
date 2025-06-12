@@ -1,6 +1,6 @@
 # My notes on small systems and related topics
 
-This repository serves as a collection of personal random notes and experiments focused on restricted environments, operating systems, architectures such as ARM, MIPS, and x86, Assembly, C, and related topics. Some of the focus is on Termux (a terminal emulator and Linux environment for Android) on AArch64 devices, and the use of proot-distro, which uses proot to install nearly complete Linux distributions, creating isolated, container-like environments where Linux operates with remarkable independence from the underlying operating system.
+This repository serves as a collection of personal random notes and experiments focused on restricted environments, operating systems, architectures such as ARM, MIPS, and x86, programming languages such as Assembly, C, and related topics. Some of the focus is on Termux (a terminal emulator and Linux environment for Android) on AArch64 devices, and the use of proot-distro, which uses proot to install nearly complete Linux distributions, creating isolated, container-like environments where Linux operates with remarkable independence from the underlying operating system.
 
 <table>
   <tr>
@@ -109,6 +109,8 @@ My personal notes on generating executables on selected architectures
 
 ## Links about Executable and Linkable Format (ELF)
 
+Common standard file format for executable files, object code, shared libraries, and core dumps.
+
 - Diagram. [ELF Executable_and_Linkable_Format diagram](img/ELF_Executable_and_Linkable_Format_diagram_by_Ange_Albertini.png) [[Source](https://upload.wikimedia.org/wikipedia/commons/e/e4/ELF_Executable_and_Linkable_Format_diagram_by_Ange_Albertini.png)]
 - [Executable and Linkable Format - Wikipedia](https://en.wikipedia.org/wiki/Executable_and_Linkable_Format)
 - [HW3 - 238P Operating Systems](https://ics.uci.edu/~aburtsev/238P/hw/hw3-elf/hw3-elf.html)
@@ -126,4 +128,4 @@ My personal notes on generating executables on selected architectures
 * Miller, A. R. (1986). [Assembly Language Techniques for the IBM PC](https://www.google.com.br/books/edition/Assembly_Language_Techniques_for_the_IBM/0FsgAQAAIAAJ).
 * Aaron Beckendorf. (2025). [A Forth OS In 46 Bytes](https://hackaday.com/2025/05/27/a-forth-os-in-46-bytes/)
 
-<br><sub>Last edited: 2025-06-09 12:40:28</sub>
+<br><sub>Last edited: 2025-06-09 12:56:49</sub>
