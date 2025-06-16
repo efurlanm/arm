@@ -1,0 +1,147 @@
+// --------------------------------------------------------------------------
+// aarch64_forth_inspired_bootloader.s
+// A simple bare-metal AArch64 bootloader, inspired by the 8086 Forth OS.
+// Receives bytes via UART. A 0x01 (SOH) command prefixes each byte to store.
+// A 0x00 (NUL) command executes the stored buffer.
+// Includes a "Ready" message on startup.
+// For QEMU virt machine (PL011 UART).
+// --------------------------------------------------------------------------
+
+.global _start
+.section .text
+
+// --- Hardware Constants (QEMU virt machine) ---
+// Base address of PL011 UART on QEMU virt machine
+.set UART_BASE,        0x09000000
+// PL011 UART Registers
+.set UART_DR,          (UART_BASE + 0x00) // Data Register
+.set UART_FR,          (UART_BASE + 0x18) // Flag Register
+// Bits in Flag Register (FR)
+.set UART_FR_TXFF,     (1 << 5)           // Transmit FIFO Full
+.set UART_FR_RXFE,     (1 << 4)           // Receive FIFO Empty
+
+// --- Memory Addresses ---
+// Address where the bootloader will be loaded by QEMU
+.set LOAD_ADDRESS,     0x40000000
+
+// Address where code received via serial will be stored.
+.set EXECUTE_BUFFER,   0x40001000
+
+// --------------------------------------------------------------------------
+// Data Section
+// --------------------------------------------------------------------------
+.section .rodata
+ready_msg:
+    .ascii "Ready\r\n\0" // "Ready" string with carriage return, newline, and null terminator
+
+// --------------------------------------------------------------------------
+// Entry Point
+// --------------------------------------------------------------------------
+_start:
+    // Configure Stack Pointer (SP)
+    // Load the desired stack address into a general-purpose register (x0) first,
+    // then move it to the stack pointer (sp).
+    ldr x0, =LOAD_ADDRESS + 0x1000 // x0 = LOAD_ADDRESS + 4KB (safe stack space)
+    mov sp, x0                     // Move the value from x0 to SP
+
+    // Initialize destination pointer for the execution buffer
+    ldr x20, =EXECUTE_BUFFER    // x20 = initial buffer address
+    mov x21, xzr                // x21 = offset within the buffer
+
+    // --- Output "Ready" message ---
+    ldr x0, =ready_msg          // Load address of "Ready" message string into x0
+    bl puts_aarch64             // Call puts_aarch64 to print the string
+
+// --------------------------------------------------------------------------
+// Main Interpreter Loop
+// --------------------------------------------------------------------------
+loop_main:
+    bl  getchar_aarch64         // Call getchar, character in w0
+
+    // Compare the received character with 0 (ASCII NUL - Execute Command)
+    cmp w0, #0x00
+    b.eq execute_code           // If w0 == 0, branch to execute_code
+
+    // Compare the received character with 1 (ASCII SOH - Store Next Byte Command)
+    cmp w0, #0x01
+    b.eq compile_next_byte      // If w0 == 1, branch to compile_next_byte
+
+    // If not 0 or 1, ignore the character and return to the start of the loop
+    b loop_main
+
+// --------------------------------------------------------------------------
+// Execute Code from Buffer
+// --------------------------------------------------------------------------
+execute_code:
+    // Ensure caches are synchronized before execution (important for JIT or self-modifying code)
+    // dsb sy                  // Data Synchronization Barrier
+    // ic ivau, x20            // Invalidate instruction cache by VA (x20 = EXECUTE_BUFFER)
+    // isb                     // Instruction Synchronization Barrier
+
+    // Branch to the execution buffer address
+    br x20                       // Branch to the address in x20 (EXECUTE_BUFFER)
+
+    // If the executed code returns, we will go back to the main loop
+    b loop_main
+
+// --------------------------------------------------------------------------
+// Compile (Store Next Byte in Buffer)
+// This routine is called when a 0x01 prefix is received.
+// --------------------------------------------------------------------------
+compile_next_byte:
+    bl getchar_aarch64          // Read the *next* byte from serial (the actual byte to be stored)
+
+    // Store the read byte (w0) into the execution buffer
+    // Address = EXECUTE_BUFFER (x20) + offset (x21)
+    strb w0, [x20, x21]         // Store byte (w0) at address [x20 + x21]
+    add x21, x21, #1            // Increment offset
+
+    b loop_main                 // Return to the main loop to await the next command/byte
+
+// --------------------------------------------------------------------------
+// Utility Functions (Serial I/O)
+// --------------------------------------------------------------------------
+
+// getchar_aarch64: Reads a character from serial and returns in w0
+getchar_aarch64:
+    // Load 64-bit address into x1 for use as base register
+    ldr x1, =UART_FR            // Load Flag Register address
+.wait_rxfe:
+    ldr w2, [x1]                // Read Flag Register (using x1 as 64-bit base)
+    tst w2, #UART_FR_RXFE       // Test RXFE bit (Receive FIFO Empty)
+    b.ne .wait_rxfe             // If RXFE is 1 (empty), wait
+
+    // Load 64-bit address into x1 for use as base register
+    ldr x1, =UART_DR            // Load Data Register address
+    ldr w0, [x1]                // Read character from Data Register (using x1 as 64-bit base, return in w0)
+    and w0, w0, #0xFF           // Ensure only the lowest byte is used
+    ret
+
+// putchar_aarch64: Writes a character from w0 to serial
+putchar_aarch64:
+    // x1 is already loaded with UART_FR from getchar if getchar was just called, but let's be safe.
+    ldr x1, =UART_FR            // Load Flag Register address
+.wait_txff:
+    ldr w2, [x1]                // Read Flag Register
+    tst w2, #UART_FR_TXFF       // Test TXFF bit (Transmit FIFO Full)
+    b.ne .wait_txff             // If TXFF is 1 (full), wait
+
+    ldr x1, =UART_DR            // Load Data Register address
+    str w0, [x1]                // Write character from w0 to Data Register
+    ret
+
+// puts_aarch64: Prints a null-terminated string pointed to by x0 to serial
+puts_aarch64:
+    // x0 holds the address of the string
+    // Loop through the string until a null terminator is found
+.put_char_loop:
+    ldrb w1, [x0]               // Load byte from string into w1 (w1 holds char, x0 holds ptr)
+    cmp w1, #0                  // Compare with null terminator
+    b.eq .put_char_end          // If null, end
+
+    mov w0, w1                  // Move character to w0 for putchar_aarch64
+    bl putchar_aarch64          // Call putchar_aarch64
+    add x0, x0, #1              // Increment string pointer
+    b .put_char_loop            // Loop back for next character
+.put_char_end:
+    ret
